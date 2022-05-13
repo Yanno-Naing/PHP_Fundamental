@@ -9,3 +9,7 @@ echo "<pre>Hello,\rWorld</pre>";
 
 
 $my_str = "The quick brown fox jumped over the lazy dog";
+
+echo "<pre>Hello \n World</pre>";
+
+echo "fdsff";
