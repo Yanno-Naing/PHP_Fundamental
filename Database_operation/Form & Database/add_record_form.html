@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            text-align: center;
+        }
+        h1{
+            width: 60%;
+            margin:0 auto;
+            background-color: purple;
+            font-size: 2em;
+            color: white;
+            padding: .5em 0;
+            border: 1px solid purple;
+        }
+        form{
+            width: 60%;
+            margin: 0 auto;
+            border:1px solid purple;
+            padding: 1em 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add Record Form</h1>
+    <form action="insert_3.php" method="post">
+        <p>
+            <label for="last_name">First Name: </label>
+            <input type="text" name="first_name" id="first_name" placeholder="First Name">
+        </p>
+        <p>
+            <label for="last_name">Last Name: </label>
+            <input type="text" name="last_name" id="last_name" placeholder="Last Name">
+        </p>
+        <p>
+            <label for="email">Email: </label>
+            <input type="text" name="email" id="email" placeholder="Email">
+        </p>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
