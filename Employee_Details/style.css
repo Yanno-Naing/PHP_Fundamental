@@ -1,0 +1,19 @@
+.heading {
+    overflow: hidden;
+    width: 100%;
+}
+
+.heading h1 {
+    width: 50%;
+    float: left;
+}
+
+.heading a {
+    float: right;
+    margin-top: 0.5em;
+}
+
+.container {
+    width: 80%;
+    margin: 5em auto;
+}

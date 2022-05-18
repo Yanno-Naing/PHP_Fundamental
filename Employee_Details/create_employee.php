@@ -72,31 +72,44 @@ require('config.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
+    <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <style>
+        .form-container{
+            width:70%;
+            margin: 3em auto;
+            margin-top: 3em;
+        }
+    </style>
 </head>
 <body>
+    <div class="form-container">
+        <h1>Create Record</h1>
+        <p>Please fill this form and submit to add employee record to the database.</p>
 
-    <h1>Create Record</h1>
-    <p>Please fill this form and submit to add employee record to the database.</p>
-
-    <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
-        <p>
-            <label for="name">Name: </label>
-            <input type="text" name="name" id="name" placeholder="Name">
-            <span><?php ($nameErr)? $nameErr:""; ?></span>
-        </p>
-        <p>
-            <label for="address">Address: </label>
-            <textarea name="address" id="address" cols="30" rows="10"></textarea>
-            <span><?php ($addressErr)? $addressErr:""; ?></span>
-        </p>
-        <p>
-            <label for="salary">Salary: </label>
-            <input type="number" name="salary" id="salary" placeholder="Salary">
-            <span><?php ($salaryErr)? $salaryErr:""; ?></span>
-        </p>
-        <input type="submit" value="Submit">
-    </form>
+        <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name: </label>
+                <input type="text" class="form-control" name="name" id="name" placeholder="Name">
+                <!-- <span></span> -->
+                <div id="name" class="form-text"><?php echo ($nameErr)?: ""; ?></div>
+            </div>
+            <div class="mb-3">
+                <label for="address"  class="form-label">Address: </label>
+                <textarea name="address" class="form-control" id="address" cols="30" rows="7"></textarea>
+                <!-- <span></span> -->
+                <div id="name" class="form-text"><?php echo ($addressErr)?: ""; ?></div>
+            </div>
+            <div class="mb-3">
+                <label for="salary"  class="form-label">Salary: </label>
+                <input type="number" class="form-control" name="salary" id="salary" placeholder="Salary">
+                <!-- <span></span> -->
+                <div id="name" class="form-text"><?php echo ($salaryErr)?: ""; ?></div>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Submit" >
+            <a href="employee_home.php" class="btn btn-default" role="button">Cancel</a>
+        </form>
+    </div>
 
 </body>
 </html>
