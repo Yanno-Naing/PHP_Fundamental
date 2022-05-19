@@ -5,7 +5,40 @@ require('config.php');
     $nameErr = $addressErr = $salaryErr = "";
     $name = $address = $salary = "";
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if($_SERVER["REQUEST_METHOD"] == "GET"){
+
+        if(!empty($_GET['id'])){
+            $id = $_GET['id'];
+
+            $sql = "SELECT * FROM employee_details WHERE id=$id";
+
+            if($result = mysqli_query($link, $sql)){
+                
+                if(mysqli_num_rows($result) > 0){
+                    //echo mysqli_num_rows($result);
+                    #output data with the assoc array.
+                    $row = mysqli_fetch_assoc($result);
+                    
+                    $name = $row['name'];
+                    $address = $row['address'];
+                    $salary = (int) $row['salary'];
+
+                    mysqli_free_result($result);
+                }else{
+                    header("location: error.php"); 
+                }
+            }else{
+                echo 'ERROR: Could not be able to execute $sql '.mysqli_error($link);
+            }
+            mysqli_close($link);
+
+        }else{
+            header("location: error.php"); 
+        }
+
+
+    }elseif($_SERVER["REQUEST_METHOD"] == "POST") {
+
         if (empty($_POST["name"])) {
           $nameErr = "Please enter a name";
         } else {
@@ -36,17 +69,18 @@ require('config.php');
         }
 
         if((!empty($name)) && (!empty($address)) && (!empty($salary))){
-            echo "true";
-            $sql = 'INSERT INTO employee_details( name, address, salary) VALUES ( ?,?,? )';
+
+            $sql = 'UPDATE employee_details SET name=?,address=?,salary=? WHERE id=?';
 
             if($stmt = mysqli_prepare($link, $sql)){
-                echo "trure";
-                echo $_POST['name'];
-                mysqli_stmt_bind_param($stmt, 'ssi', $name, $address, $salary);
+                
+                //echo $_POST['name'];
+                mysqli_stmt_bind_param($stmt, 'ssii', $name, $address, $salary, $id);
 
                 $name = $_POST['name'];
                 $address = $_POST['address'];
                 $salary = $_POST['salary'];
+                $id = $_POST['id'];
 
                 mysqli_stmt_execute($stmt);
                 echo "Records added successfully.";
@@ -62,7 +96,9 @@ require('config.php');
             header("location: employee_home.php");
         }
       
-       
+      }else{
+
+        header("location: error.php");
       }
 
 ?>
@@ -81,10 +117,11 @@ require('config.php');
 </head>
 <body>
     <div class="form-container">
-        <h1>Create Record</h1>
-        <p>Please fill this form and submit to add employee record to the database.</p>
+        <h1>Update Record</h1>
+        <p>Please edit the input values and submit to update the record.</p>
 
         <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+            <input type="hidden" name="id" value="<?php echo $_GET['id'];?>">
             <div class="mb-3">
                 <label for="name" class="form-label">Name: </label>
                 <input type="text" class="form-control" name="name" id="name" placeholder="Name"
