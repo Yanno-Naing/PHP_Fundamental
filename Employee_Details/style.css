@@ -18,7 +18,13 @@
 
 .container {
     width: 80%;
-    margin: 5em auto;
+    margin: 0 auto;
+    margin-top: 2em;
+    margin-bottom: 5em;
+}
+.container .search-div{
+  margin-bottom: 1em;
+  width: 60%;
 }
 
 input::-webkit-outer-spin-button,
@@ -36,37 +42,19 @@ h4{
     text-align: center;
 }
 
-.tooltip {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .tooltip .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-    position: absolute;
-    z-index: 1;
-    bottom: 150%;
-    left: 50%;
-    margin-left: -60px;
-  }
-  
-  .tooltip .tooltiptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: black transparent transparent transparent;
-  }
-  
-  .tooltip:hover .tooltiptext {
-    visibility: visible;
-  }
+footer{
+  position: fixed;
+            padding: 10px 10px 0px 10px;
+            bottom: 0;
+            width: 100%;
+            /* Height of the footer*/ 
+            height: 40px;
+            background: #FBE9E6;
+            text-align: center;
+            color:black;
+            font-size: 0.9em;
+            font-family: serif;
+}
+footer a{
+  text-decoration: none;
+}

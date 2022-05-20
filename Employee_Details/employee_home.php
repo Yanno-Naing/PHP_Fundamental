@@ -1,4 +1,5 @@
 <?php
+require 'auth.php';
 require 'config.php';
 ?>
 
@@ -15,15 +16,51 @@ require 'config.php';
 "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
     </script>
     <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+
+        <a class="navbar-brand" href="#">
+        <img src="img/company_logo.png" alt="" width="130" height="">
+        <span> Welcome to our site.</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse d-flex flex-row-reverse" id="navbarSupportedContent">
+        <ul class="navbar-nav mb-2 mb-lg-0 " style=" min-width:11em;">
+            <li class="nav-item dropdown" style="width: 3em;">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <?php echo $_SESSION['username']; ?>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li><a class="dropdown-item" href="#">Settings</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="logout.php">Logout</a></li>
+            </ul>
+            </li>
+        </ul>
+
+        </div>
+    </div>
+    </nav>
+
+
     <div class="container"> 
         <div class="heading" >
             <h1>Employee Details</h1>
             <a href="create_employee.php" class="btn btn-success" role="button">Add New Employee</a>
         </div>
 
-        <input type="text" id="search" onkeydown="searchData()">
+        <div class="search-div">
+            <input type="text" id="search" class="form-control" onkeyup="searchData()" onkeypress="refreshTextbox()" placeholder="Search by employee name...">
+        </div>
 
         <?php
             $sql = 'SELECT * FROM employee_details';
@@ -70,38 +107,78 @@ require 'config.php';
         ?>
     
     </div>
-
+    <footer>
+        <div>
+            <p> 2022 All Rights Reserved &copy; by <a href="https://www.brycenmyanmar.com.mm">Brycen Myanmar Co.,Ltd.</a></p>
+        </div>
+    </footer>
     <script>
-        $(document).ready(function() {
-            
-            
-        });
+        
         function searchData(){
+
             var searchinput = $('#search').val();
-            if(searchData != ""){
+
+            if(searchinput==""){
+                refreshTextbox();
+                refreshTable();
+
+            }else if(searchinput.trim()==""){
+                noResultAlert();
+                refreshTable();
+                console.log("string null");
+
+            }else{
                 $.ajax({
-                url: "search.php",
-                type: "post",
-                data: {searchData: searchinput} ,
-                success: function (response) {
-                    // if(response){
-                    //     var obj = JSON.parse(response);
-                    //     showResult(obj);
-                    // }
-                    console.log(response);
-                    
-                    
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                console.log(textStatus, errorThrown);
-                }
-            });
+                    url: "search.php",
+                    type: "post",
+                    data: {searchData: searchinput} ,
+                    success: function (response) {
+                        var obj = JSON.parse(response);
+                        //console.log(obj);
+                        showResult(obj);
+
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                    }
+                });
             }
-            
         }
+
+
         function showResult(obj){
-            var table = document.getElementsByTagName('table');
-            console.log(table.rows);
+
+            //console.log(trArray[1]);
+            console.log(obj);   
+
+            if(obj.length==0){
+                noResultAlert();
+                refreshTable();
+            }else{
+                refreshTable();
+                obj.forEach(id => {
+                    let searchItem = document.getElementById(id); 
+                    searchItem.style.backgroundColor = 'yellow';
+                    });
+            }
+        }
+
+        function refreshTable(){
+            let table_rows = document.getElementsByTagName('tr');
+            let trArray = Array.from(table_rows);
+            trArray.forEach(tr => {
+                    tr.style.backgroundColor = 'transparent';
+                });
+        }
+
+        function noResultAlert(){
+            let searchBox = document.getElementById('search');
+            searchBox.style.backgroundColor = "yellow";
+        }
+
+        function refreshTextbox(){
+            let searchBox = document.getElementById('search');
+            searchBox.style.backgroundColor = "transparent";
         }
 
 
